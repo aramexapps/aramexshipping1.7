@@ -1,1 +1,1 @@
-# prestashop1.7
+# Aramex shipping module
