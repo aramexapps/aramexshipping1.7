@@ -505,7 +505,7 @@
                     {if $session eq true}
                         {assign var = 'address' value = $smarty.session.form_data.aramex_shipment_receiver_street}
                     {else}
-                        {assign var = 'address' value = $address_reciver}
+                        {assign var = 'address' value = "`$address_reciver` `$address_reciver2`"}
                     {/if}
                     <label>Address <span class="red">*</span></label><textarea class="required" rows="4"
                                                                                cols="26" type="text"

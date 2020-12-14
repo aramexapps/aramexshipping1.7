@@ -1286,6 +1286,7 @@ class Aramexshipping extends CarrierModule
                 'session' => $session,
                 'customer' => $customer,
                 'address_reciver' => $address->address1,
+                'address_reciver2' => $address->address2,
                 'reciverCountryCode' => $reciverCountryCode,
                 'reciverCity' => $address->city,
                 'reciverPostcode' => $address->postcode,
