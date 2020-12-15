@@ -1122,10 +1122,18 @@
         var aramex_shipment_receiver_postal = document.getElementById('aramex_shipment_receiver_postal').value;
         var aramex_shipment_receiver_state = document.getElementById('aramex_shipment_receiver_state').value;
         var aramex_shipment_receiver_phone = document.getElementById('aramex_shipment_receiver_phone').value;
-        jQuery(document).ready(function ($) {
-            $("#aramex_shipment_info_billing_account_id").change(function () {
+        
+       $("#aramex_shipment_info_billing_account_id").change(function () {
+            {if isset($smarty.session.aramex_errors) and $smarty.session.aramex_errors gt '0'}
+                var hasError = true;
+            {else}
+                var hasError = false;
+            {/if}
+            
+            if(!hasError)
+            {
                 resetShipperDetail(this);
-            });
+            }
         });
 
         function resetShipperDetail(el) {
