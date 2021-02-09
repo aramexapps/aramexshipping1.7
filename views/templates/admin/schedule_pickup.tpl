@@ -395,51 +395,33 @@
                         dateFormat: 'mm/dd/yy'
                     });
                 $('#aramex_pickup_submit').click(function () {
+                    var validator = $('#pickup-form').validate({
+                    rules: {
+                        mobile: { required: true,},
+                        address: { required: true, },
+                        city: { required: true, },
+                        email: { required: true,},
+                        text_weight: { required: true,},
+                        no_pieces: { required: true, },
+                        no_shipments: { required: true,}
+                    }});
 
-                    if ($('#pickup-form').validate({
-                                rules: {
-                                    mobile: {
-                                        required: true,
-                                    },
-                                    address: {
-                                        required: true,
-                                    },
-                                    city: {
-                                        required: true,
-                                    },
-                                    email: {
-                                        required: true,
-                                    },
-                                    text_weight: {
-                                        required: true,
-                                    },
-                                    no_pieces: {
-                                        required: true,
-                                    },
-                                    no_shipments: {
-                                        required: true,
-                                    }
-                                }
-                            }
-                        )) {
-                        if ($("#pickup-form").valid()) {
-                            var rH = $('#ready_hour').val();
-                            var lH = $('#latest_hour').val();
-                            var rM = $('#ready_minute').val();
-                            var lM = $('#latest_minute').val();
-                            var error = false;
-                            var rDate = $('#pickup_date').val();
-                            if (rDate == '' || rDate == null) {
-                                alert("Pickup Date should not empty");
-                                return;
-                            }
-                            rDate = rDate.split("/");
-
-
-                            var isCheckTime = false;
-                            if (rDate[2] < year) {
-                                error = true;
-                            } else if (rDate[2] == year) {
+                    if (validator && validator.errorList.length === 0) {
+                        var rH = $('#ready_hour').val();
+                        var lH = $('#latest_hour').val();
+                        var rM = $('#ready_minute').val();
+                        var lM = $('#latest_minute').val();
+                        var error = false;
+                        var rDate = $('#pickup_date').val();
+                        if (rDate == '' || rDate == null) {
+                            alert("Pickup Date should not empty");
+                            return;
+                        }
+                        rDate = rDate.split("/");
+                        var isCheckTime = false;
+                        if (rDate[2] < year) {
+                            error = true;
+                        } else if (rDate[2] == year) {
 
                                 if (rDate[0] < mounth) {
                                     error = true;
@@ -457,12 +439,12 @@
                                         isCheckTime = true;
                                     }
                                 }
-                            }
-                            if (error) {
+                        }
+                        if (error) {
                                 alert("Pickup Date should be greater than Current Date");
                                 return;
-                            }
-                            if (isCheckTime) {
+                        }
+                        if (isCheckTime) {
                                 if (lH < rH) {
                                     error = true;
                                 } else if (lH <= rH && lM <= rM) {
@@ -472,17 +454,14 @@
                                     alert("Closing Time always greater than Ready Time");
                                     return;
                                 }
-                            }
-                            if ($("#pickup-form").valid()) {
-                                myObj.schedulePickup();
-                            }
-                            return false;
                         }
+                        if (validator.errorList.length === 0) {
+                            myObj.schedulePickup();
+                        }
+                        return false;
                     }
                 });
-
             });
-
         </script>
     </div>
 </div>

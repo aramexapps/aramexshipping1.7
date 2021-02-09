@@ -125,7 +125,7 @@
     width: 100%;
     height: 100%;
     display: none;
-    top: -150px;
+    top: 0px;
     left: 0;
 }
 
@@ -524,5 +524,5 @@
 }
 
 .aramex_note {
-    margin-top: 20px;
+    margin-top: 3px;
 }

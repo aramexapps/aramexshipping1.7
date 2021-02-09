@@ -23,24 +23,20 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div style="clear:both; padding-top:10px;">
-    <div class="row">
-
-        <a class=' btn btn-primary' style="margin-top:15px; "
+<div style="clear:both; padding:0;">
+    <a class=' btn btn-primary'"
            id="create_aramex_shipment">{l s='Prepare Aramex Shipment' mod='aramexshipping'}</a>
         {if  $aramex_return_button  eq true}
-            <a class='  btn btn-primary ' style="margin-top:15px; margin-left:15px; "
+            <a class='  btn btn-primary ' margin-left:15px; "
                id="print_aramex_shipment">{l s='Print Label' mod='aramexshipping'} </a>
         {/if}
         {if  $shipped  eq true}
-            <a class=' btn btn-primary ' style="margin-top:15px; margin-left:15px; "
+            <a class=' btn btn-primary ' margin-left:15px; "
                id="track_aramex_shipment"> {l s='Track Aramex Shipment' mod='aramexshipping'}</a>
         {/if}
-    </div>
-
-
 </div>
-{if isset($note)}
+
+{if isset($note) and count($note) > 0}
     <div class="aramex_note">
         {foreach from=$note item=value}
             <span class="aramex_note_value">  {$value|escape:'html':'UTF-8'} </span>
@@ -1381,7 +1377,10 @@
                 shipping_aramex_cities_temp = '';
                /* aramexCitiesObj.autocomplete("option", "source", url_check);*/
 
-                return $(type).find(".aramex_city").autocomplete(url_check, {
+                $(type).find(".aramex_city").autocomplete({
+                    source: url_check
+                });
+                return $(type).find(".aramex_city").autocomplete({
                     minChars: 2,
                     autoFill: true,
                     max:20,
@@ -1389,21 +1388,22 @@
                     mustMatch:false,
                     scroll:true,
                     dataType: 'json',
-			formatItem: function(data, i, max, value, term) {
-				return value;
-			},
+			        formatItem: function(data, i, max, value, term) {
+			        	return value;
+			        },
                     extraParams: {
                         country_code : country_code
                     },
                     parse: function(data) {
-				var mytab = new Array();
-				for (var i = 0; i < data.length; i++)
-					mytab[mytab.length] = { data: data[i].trim(), value: data[i].trim() };
-				return mytab;
-                }
-                }).result(function(e, i){
+				        var mytab = new Array();
+				        for (var i = 0; i < data.length; i++)
+				        	mytab[mytab.length] = { data: data[i].trim(), value: data[i].trim() };
+				        return mytab;
+                    },
+                    response: function(e, i){
                         $(type).find(".aramex_city").val(i);
-		});
+		            }
+                });
             }
         }
     });

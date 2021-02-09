@@ -300,7 +300,7 @@ class AdminShipmentController extends AdminController
 
             $params['Details']['CustomsValueAmount'] = array(
                 'Value' => Tools::getValue('aramex_shipment_info_custom_amount'),
-                'CurrencyCode' => Tools::getValue('aramex_shipment_currency_code')
+                'CurrencyCode' => Tools::getValue('aramex_shipment_currency_code_custom')
             );
             $major_par = array();
             $major_par['Shipments'][] = $params;

@@ -105,8 +105,8 @@ class Aramexshipping extends CarrierModule
             $this->registerHook('displayAdminOrder') &&
             $this->registerHook('displayAdminListBefore') &&
             $this->registerHook('footer') &&
-            $this->registerHook('displayProductButtons') &&
-            $this->registerHook('displayBackOfficeOrderActions');
+            $this->registerHook('displayProductButtons') &&			
+            $this->registerHook('displayAdminOrderTop');
         #reinstall module after adding hook!!!
     }
 
@@ -822,6 +822,7 @@ class Aramexshipping extends CarrierModule
      */
     public function hookActionAdminControllerSetMedia()
     {
+        $this->context->controller->addJqueryUi('ui.datepicker');
         $this->context->controller->addJS($this->_path . 'views/js/jquery.chained.js');
         $this->context->controller->addJS($this->_path . 'views/js/common.js');
         $this->context->controller->addJS($this->_path . 'views/js/jquery.validate.min.js');
@@ -1125,15 +1126,15 @@ class Aramexshipping extends CarrierModule
      * @param array $params Parameters
      * @return mixed
      */
-    public function hookDisplayBackOfficeOrderActions($params)
+    public function hookDisplayAdminOrderTop($params)
     {
         $order = new Order($params["id_order"]);
         $products = $order->getProductsDetail();
         $totalWeight = $order->getTotalWeight();
         $id_customer = $order->id_customer;
         $customer = new Customer((int)$id_customer);
-        $address = new Address($params['cart']->id_address_delivery);
-        $carrier = new Carrier($params['cart']->id_carrier);
+        $address = new Address($order->id_address_delivery);
+        $carrier = new Carrier($order->id_carrier);
 
 
         $form_fields = $this->form_fields->getAllElements();
@@ -1144,8 +1145,8 @@ class Aramexshipping extends CarrierModule
                 $allowed_method = $allowed_method_internal['id_option'];
             }
         }
-        $id_address_delivery = Context::getContext()->cart->id_address_delivery;
-        $address = new Address($id_address_delivery);
+        // $id_address_delivery = Context::getContext()->cart->id_address_delivery;
+        // $address = new Address($id_address_delivery);
         $id_country = Country::getIdByName(null, $address->country);
         if (Configuration::get('ARAMEX_COUNTRY') == Country::getIsoById($id_country)) {
             $allowed_methods_all = $form_fields['allowed_domestic_methods'];
